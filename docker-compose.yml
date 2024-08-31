@@ -1,0 +1,29 @@
+version: '3'
+services:
+  webserver:
+    build: .
+    environment:
+      - LOAD_EX=n
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+  scheduler:
+    build: .
+    environment:
+      - LOAD_EX=n
+    volumes:
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
